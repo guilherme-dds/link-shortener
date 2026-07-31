@@ -49,4 +49,16 @@ app.get("/:shortUrl", async (req, res) => {
     }
 })
 
+// GET All Url
+
+app.get("/api/urllist", async (req, res) => {
+    const urlList = await Url.find();
+
+    if (urlList.length > 0) {
+        return res.status(200).json({ urlList });
+    } else {
+        return res.status(404).json("No URL found")
+    }
+})
+
 app.listen(PORT, () => console.log(`Server running on port ${PORT}`))
