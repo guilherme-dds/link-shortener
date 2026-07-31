@@ -33,7 +33,7 @@ function App() {
     setCopied(false);
     try {
       // Substitua pela URL da sua API backend
-      const response = await fetch('/api/shorten', {
+      const response = await fetch('http://localhost:3000/api/shorten', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -48,7 +48,7 @@ function App() {
 
       const data = await response.json();
       // Assumindo que a API retorna { shortUrl: '...' }
-      setShortUrl(`${window.location.origin}/${data.shortId}`);
+      setShortUrl(`http://localhost:3000/${data.shortUrl}`);
     } catch (err) {
       if (err instanceof Error) {
         setError(err.message);
