@@ -61,4 +61,14 @@ app.get("/api/urllist", async (req, res) => {
     }
 })
 
+// Delete URL
+
+app.delete("/api/delete/:shortUrl", async (req, res) => {
+    const { shortUrl } = req.params;
+
+    await Url.deleteOne({shortUrl})
+
+    return res.status(204);
+})
+
 app.listen(PORT, () => console.log(`Server running on port ${PORT}`))
