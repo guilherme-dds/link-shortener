@@ -29,46 +29,73 @@ const Url = mongoose.model('Url', urlSchema)
 // Shorten API
 
 app.post('/api/shorten', async (req, res) => {
-    const { originalUrl } = req.body;
-    const shortUrl = shortid.generate();
-    const newUrl = new Url({ originalUrl, shortUrl})
-    await newUrl.save();
-    res.status(201).json({ originalUrl, shortUrl })
+    try {
+        const { originalUrl } = req.body;
+
+        const validUrl = URL.canParse(originalUrl.trim())
+
+        if (validUrl) {
+            const shortUrl = shortid.generate();
+            const newUrl = new Url({ originalUrl, shortUrl})
+            await newUrl.save();
+            res.status(201).json({ originalUrl, shortUrl })
+        } else {
+            return res.status(400).json({ message: "Invalid URL format" })
+        }
+    } catch (error) {
+        return res.status(500).json({ message: "Internarl server error" })
+    }
 })
 
 // Redirect API
 
 app.get("/:shortUrl", async (req, res) => {
-    const { shortUrl } = req.params;
-    const url = await Url.findOne({ shortUrl });
+    try {
+        const { shortUrl } = req.params;
+        const url = await Url.findOne({ shortUrl });
 
-    if (url) {
-        return res.redirect(url.originalUrl);
-    } else {
-        return res.status(404).json("URL not found")
+        if (url) {
+            return res.redirect(url.originalUrl);
+        } else {
+            return res.status(404).json("URL not found")
+        }
+    } catch (error) {
+        return res.status(500).json({ message: "Internal server error" })
     }
 })
 
 // GET All Url
 
 app.get("/api/urllist", async (req, res) => {
-    const urlList = await Url.find();
+    try {
+        const urlList = await Url.find();
 
-    if (urlList.length > 0) {
-        return res.status(200).json({ urlList });
-    } else {
-        return res.status(404).json("No URL found")
+        if (urlList.length > 0) {
+            return res.status(200).json({ urlList });
+        } else {
+            return res.status(404).json({ message: "No URL found" })
+        }
+    } catch (error) {
+        return res.status(500).json({ message: "Internal server error" })
     }
 })
 
 // Delete URL
 
 app.delete("/api/delete/:shortUrl", async (req, res) => {
-    const { shortUrl } = req.params;
+    try {
+        const { shortUrl } = req.params;
 
-    await Url.deleteOne({shortUrl})
+        const result = await Url.deleteOne({shortUrl})
 
-    return res.status(204);
+        if (result.deletedCount === 0) {
+            return res.status(404).json({ message: "URL not found" });
+        }
+
+        return res.status(204);
+    } catch (error) {
+        return res.status(500).json({ message: "Internal server error" })
+    }
 })
 
 app.listen(PORT, () => console.log(`Server running on port ${PORT}`))
