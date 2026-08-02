@@ -15,13 +15,12 @@ function App() {
 
     const timerId = setTimeout(() => {
       setCopied(false);
-    }, 2000); // Reseta o texto 'Copiado!' após 2 segundos
+    }, 2000);
 
-    return () => clearTimeout(timerId); // Limpa o timer se o componente for desmontado
+    return () => clearTimeout(timerId);
   }, [copied]);
 
   const handleShortenClick = async () => {
-    // Validação manual, já que o 'required' do form não é mais usado
     if (!url) {
       setError('Por favor, cole uma URL para encurtar.');
       return;
@@ -32,7 +31,6 @@ function App() {
     setShortUrl('');
     setCopied(false);
     try {
-      // Substitua pela URL da sua API backend
       const response = await fetch('http://localhost:3000/api/shorten', {
         method: 'POST',
         headers: {
