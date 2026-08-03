@@ -1,7 +1,8 @@
-import { Router } from 'express';
+import { Router } from "express";
+import { UserController } from "./controller/UserController";
 
-export const router = Router()
+const usercontroller = new UserController();
 
-router.get("/", async (req, res) => {
-    return res.json({hello: "world"});
-});
+export const router = Router();
+
+router.post("/create", usercontroller.store);

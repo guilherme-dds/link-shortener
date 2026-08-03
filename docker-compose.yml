@@ -1,30 +1,12 @@
 version: "3.9"
 
 services:
-  mongodb:
-    image: mongo:latest
-    container_name: mongodb
-    restart: always
-
-    environment:
-      MONGO_INITDB_ROOT_USERNAME: ${MONGO_USER}
-      MONGO_INITDB_ROOT_PASSWORD: ${MONGO_PASSWORD}
-
-    ports:
-      - "27017:27017"
-
-    volumes:
-      - mongodb_data:/data/db
-
   backend:
     build: ./backend
     container_name: backend
 
     ports:
-      - "3000:3000"
-
-    depends_on:
-      - mongodb
+      - "3333:3333"
 
     env_file:
       - ./backend/.env
@@ -32,7 +14,7 @@ services:
     volumes:
       - ./backend:/app
       - /app/node_modules
-  
+
   frontend:
     build: ./frontend
     container_name: frontend
