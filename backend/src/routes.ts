@@ -6,3 +6,4 @@ const usercontroller = new UserController();
 export const router = Router();
 
 router.post("/create", usercontroller.store);
+router.get("/users", usercontroller.index);
