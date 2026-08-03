@@ -27,6 +27,8 @@ export class AuthController {
       expiresIn: "1h",
     });
 
-    return res.json({ user, token });
+    const { id } = user;
+
+    return res.json({ user: { id, email }, token });
   }
 }
