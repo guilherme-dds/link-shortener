@@ -10,6 +10,8 @@
     "@types/mongoose": "^5.11.96",
     "@types/node": "^26.1.2",
     "@types/shortid": "^2.2.0",
+    "dotenv": "^17.4.2",
+    "prisma": "^7.9.1",
     "ts-node-dev": "^2.0.0",
     "tsx": "^4.23.1",
     "typescript": "^7.0.2"
@@ -21,7 +23,6 @@
     "@prisma/client": "^7.9.1",
     "bcryptjs": "^3.0.3",
     "cors": "^2.8.6",
-    "dotenv": "^17.4.2",
     "express": "^5.2.1",
     "jsonwebtoken": "^9.0.3",
     "shortid": "^2.2.17"
