@@ -15,3 +15,4 @@ router.get("/users", AuthMiddleware, usercontroller.index);
 router.post("/auth", authcontroller.authenticate);
 router.post("/api/shorten", linkcontroller.shorten);
 router.get("/:shortUrl", linkcontroller.redirect);
+router.get("/api/:id", linkcontroller.findById);

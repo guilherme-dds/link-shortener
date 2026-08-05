@@ -4,6 +4,7 @@ import { prisma } from "../utils/prisma";
 import { error } from "node:console";
 
 export class LinkController {
+  // Shorten API
   async shorten(req: Request, res: Response) {
     try {
       const { originalUrl, userId } = req.body;
@@ -28,6 +29,7 @@ export class LinkController {
     }
   }
 
+  // Redirect API
   async redirect(req: Request, res: Response) {
     try {
       const { shortUrl } = req.params;
@@ -47,6 +49,29 @@ export class LinkController {
       } else {
         return res.status(404).json("URL not found");
       }
+    } catch (error) {
+      return res.status(500).json({ error: "Internal server error" });
+    }
+  }
+
+  // GET link by ID
+  async findById(req: Request, res: Response) {
+    try {
+      const { id } = req.params;
+
+      const findUrl = await prisma.link.findUnique({
+        where: {
+          id: Number(id),
+        },
+      });
+
+      if (!findUrl) {
+        return res.status(404).json({ message: "URL not found" });
+      }
+
+      const { originalUrl, shortUrl } = findUrl;
+
+      return res.status(201).json({ findUrl: { id, originalUrl, shortUrl } });
     } catch (error) {
       return res.status(500).json({ error: "Internal server error" });
     }
