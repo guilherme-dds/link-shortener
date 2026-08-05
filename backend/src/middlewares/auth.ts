@@ -2,7 +2,7 @@ import { Request, Response, NextFunction } from "express";
 import { verify } from "jsonwebtoken";
 
 type TokenPayload = {
-  id: String;
+  id: string;
   iat: number;
   exp: number;
 };
@@ -15,7 +15,7 @@ export function AuthMiddleware(
   const { authorization } = req.headers;
 
   if (!authorization) {
-    return res.status(401).json({ error: "Roken not provided" });
+    return res.status(401).json({ error: "Token not provided" });
   }
 
   const [, token] = authorization.split(" ");

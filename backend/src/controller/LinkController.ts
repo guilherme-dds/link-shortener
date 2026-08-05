@@ -71,7 +71,24 @@ export class LinkController {
 
       const { originalUrl, shortUrl } = findUrl;
 
-      return res.status(201).json({ findUrl: { id, originalUrl, shortUrl } });
+      return res.status(200).json({ findUrl: { id, originalUrl, shortUrl } });
+    } catch (error) {
+      return res.status(500).json({ error: "Internal server error" });
+    }
+  }
+
+  // GET All links from user
+  async findAll(req: Request, res: Response) {
+    try {
+      const userId = req.userId;
+
+      const links = await prisma.link.findMany({
+        where: {
+          userId,
+        },
+      });
+
+      return res.status(200).json({ links });
     } catch (error) {
       return res.status(500).json({ error: "Internal server error" });
     }

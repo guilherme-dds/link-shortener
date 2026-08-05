@@ -13,6 +13,9 @@ export const router = Router();
 router.post("/create", usercontroller.store);
 router.get("/users", AuthMiddleware, usercontroller.index);
 router.post("/auth", authcontroller.authenticate);
-router.post("/api/shorten", linkcontroller.shorten);
+
+router.post("/api/links", AuthMiddleware, linkcontroller.shorten);
+router.get("/api/links", AuthMiddleware, linkcontroller.findAll);
+router.get("/api/links/:id", AuthMiddleware, linkcontroller.findById);
+
 router.get("/:shortUrl", linkcontroller.redirect);
-router.get("/api/:id", linkcontroller.findById);
