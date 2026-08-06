@@ -93,4 +93,25 @@ export class LinkController {
       return res.status(500).json({ error: "Internal server error" });
     }
   }
+
+  // DELETE link
+  async delete(req: Request, res: Reponse) {
+      try {
+        const { shortUrl } = req.params;
+
+        const result = await prisma.link.delete({
+          where: {
+            shortUrl
+          }
+        })
+
+        if (result.deletedCount === 0) {
+            return res.status(404).json({ message: "URL not found" });
+        }
+
+        return res.status(204);
+    } catch (error) {
+        return res.status(500).json({ message: "Internal server error" })
+    }
+  }
 }
